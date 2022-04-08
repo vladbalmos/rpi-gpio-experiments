@@ -28,7 +28,7 @@ def sensor_reading():
     # first 2 bits represent the response status
     reading_status = raw_data[0] >> 6
     if reading_status != VALID_DATA and reading_status != STALE_DATA:
-        print('Invalid data:', status, file=sys.stderr)
+        print('Invalid data:', reading_status, raw_data, file=sys.stderr)
         return (None, None)
 
     # next 14 bits represent the humidity value
