@@ -1,4 +1,5 @@
-# 7 segment display counter driver
+# Take sensor reading
+# and display it using 4 x LED 7 segments displays (multiplexed)
 from periphery import I2C
 import time
 import sys
@@ -25,7 +26,7 @@ DIGIT3 = 18
 DIGIT4 = 19
 
 TEMP = 10
-HUMID = 12
+HUMID = 11
 OFF = 15
 
 REFRESH_WAIT = 3 / 1000
