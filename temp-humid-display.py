@@ -39,6 +39,8 @@ gpio.setmode(gpio.BOARD)
 gpio.setup(outputs, gpio.OUT)
 
 last_selected_digit = None
+temp_readings = []
+humidity_readings = []
 
 def sensor_reading():
     '''Send a measurement request and a read request
@@ -52,7 +54,6 @@ def sensor_reading():
     read_msg = I2C.Message([0x0, 0x0, 0x0, 0x0], read = True)
     bus.transfer(SENSOR_ADDRESS, [read_msg])
     raw_data = read_msg.data
-    print(raw_data)
 
     # first 2 bits represent the response status
     reading_status = raw_data[0] >> 6
@@ -66,8 +67,17 @@ def sensor_reading():
 
     # next 14 bits represent the temperature
     temp = (raw_data[2] << 6) | raw_data[3]
-    print(temp)
-    temp = (temp / (2 ** 14 - 2) * 165 - 40) - 3
+    temp = (temp / (2 ** 14 - 2) * 165 - 40) - 2
+    temp_readings.append(temp)
+    humidity_readings.append(humidity)
+
+    if len(temp_readings) > 10:
+        temp_readings.pop(0)
+        humidity_readings.pop(0)
+
+    if len(temp_readings) == 10:
+        temp = sum(temp_readings) / len(temp_readings)
+        humidity = sum(humidity_readings) / len(humidity_readings)
 
     return (humidity, temp)
 
