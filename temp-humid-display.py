@@ -1,5 +1,11 @@
 # Take sensor reading
 # and display it using 4 x LED 7 segments displays (multiplexed)
+# Requirements:
+#   pip3 install --user python-periphery
+# Run at boot:
+# /etc/rc.local:
+#    su -c 'python /home/pi/Development/rpi-gpio-experiments/temp-humid-display.py > /home/pi/sensor.log 2>&1' pi &
+
 from periphery import I2C
 import time
 import sys
